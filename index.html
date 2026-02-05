@@ -46,45 +46,47 @@
             animation: spin 0.8s linear infinite;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        
         #error-display {
             display: none;
             margin-top: 20px;
             padding: 15px;
-            background: rgba(255, 0, 0, 0.1);
-            border: 1px solid rgba(255, 0, 0, 0.3);
-            color: #ff6b6b;
-            font-size: 10px;
-            border-radius: 4px;
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid #ff4444;
+            color: #ff8888;
+            font-size: 11px;
+            border-radius: 8px;
             max-width: 90%;
             word-break: break-all;
-            font-family: monospace;
         }
     </style>
-<script type="importmap">
+    <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@19.0.0?bundle",
-    "react-dom": "https://esm.sh/react-dom@19.0.0?bundle",
-    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client?bundle",
+    "react": "https://esm.sh/react@19.0.0",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
     "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
     "react/": "https://esm.sh/react@^19.2.4/"
   }
 }
 </script>
-<script>
-    // Capture les erreurs au démarrage pour aider le diagnostic
-    window.onerror = function(msg, url, line) {
-        const errorDiv = document.getElementById('error-display');
-        const statusText = document.getElementById('status-text');
-        if (errorDiv) {
-            errorDiv.style.display = 'block';
-            errorDiv.innerHTML = "ERREUR DETECTEE:<br>" + msg + "<br>Ligne: " + line;
-            if (statusText) statusText.innerHTML = "ÉCHEC DU CHARGEMENT";
-        }
-        return false;
-    };
-</script>
+    <script>
+        // Diagnostic immédiat
+        window.onerror = function(msg, url, line) {
+            document.getElementById('status-text').innerText = "ERREUR SYSTÈME";
+            const err = document.getElementById('error-display');
+            err.style.display = 'block';
+            err.innerHTML = msg + " (Ligne: " + line + ")";
+        };
+        // Timeout de sécurité : si après 6s rien ne se passe
+        setTimeout(() => {
+            if (document.getElementById('status-text').innerText === "Initialisation Sécurisée") {
+                document.getElementById('status-text').innerText = "DÉLAI DÉPASSÉ";
+                document.getElementById('error-display').style.display = 'block';
+                document.getElementById('error-display').innerText = "Le script principal ne répond pas. Veuillez rafraîchir la page ou vider votre cache.";
+            }
+        }, 6000);
+    </script>
 </head>
 <body>
     <div id="root">
@@ -92,7 +94,7 @@
             <div class="loader-gold"></div>
             <p id="status-text" style="margin-top: 20px; font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: #f9d423; font-weight: bold;">Initialisation Sécurisée</p>
             <div id="error-display"></div>
-            <p style="margin-top: 30px; font-size: 8px; color: #555; letter-spacing: 1px;">Tentative de connexion aux serveurs de sécurité...</p>
+            <p id="sub-text" style="margin-top: 30px; font-size: 8px; color: #444; letter-spacing: 1px;">Vérification des protocoles de chiffrement...</p>
         </div>
     </div>
     <script type="module" src="./index.tsx"></script>

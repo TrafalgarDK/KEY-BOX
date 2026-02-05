@@ -1,7 +1,7 @@
 
 import React, { useState, useCallback } from 'react';
-import Logo from './components/Logo';
-import CodeDisplay from './components/CodeDisplay';
+import Logo from './components/Logo.tsx';
+import CodeDisplay from './components/CodeDisplay.tsx';
 
 const App: React.FC = () => {
   const [code, setCode] = useState<string | null>(null);
@@ -10,7 +10,6 @@ const App: React.FC = () => {
   const generateCode = useCallback(() => {
     if (isGenerating) return;
     
-    // Petit retour haptique si supporté
     if (window.navigator && window.navigator.vibrate) {
       window.navigator.vibrate(50);
     }
@@ -18,7 +17,7 @@ const App: React.FC = () => {
     setIsGenerating(true);
     
     let counter = 0;
-    const duration = 25; // Nombre de itérations
+    const duration = 25; 
     const interval = setInterval(() => {
       const randomCode = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
       setCode(randomCode);
@@ -36,10 +35,8 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen h-screen w-full flex flex-col items-center justify-between p-6 metallic-anthracite overflow-hidden select-none">
-      {/* Glossy overlay layer */}
       <div className="fixed inset-0 bg-gradient-to-tr from-black/60 via-transparent to-white/5 pointer-events-none z-0"></div>
 
-      {/* Header */}
       <header className="relative z-10 w-full text-center pt-10">
         <h1 className="text-5xl md:text-7xl font-black brushed-gold-text tracking-widest uppercase italic transform skew-x-[-5deg]">
           KEY BOX
@@ -50,7 +47,6 @@ const App: React.FC = () => {
         </p>
       </header>
 
-      {/* Main Section */}
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center w-full max-w-lg">
         <div className="relative mb-8 transform hover:scale-105 transition-transform duration-500">
           <div className="absolute inset-0 bg-[#F9D423] opacity-10 blur-[80px]"></div>
@@ -84,7 +80,6 @@ const App: React.FC = () => {
         </div>
       </main>
 
-      {/* Footer */}
       <footer className="relative z-10 w-full text-center pb-10">
         <div className="flex flex-col items-center gap-1">
           <div className="w-12 h-[1px] bg-[#C5A022] opacity-30 mb-2"></div>
