@@ -1,9 +1,8 @@
 
 import React, { useState, useCallback } from 'react';
 
-// --- COMPOSANT LOGO (Inliné pour fiabilité) ---
-const Logo: React.FC<{ className?: string }> = ({ className }) => (
-  <div className={`relative flex items-center justify-center ${className}`}>
+const Logo: React.FC = () => (
+  <div className="relative flex items-center justify-center scale-90">
     <svg width="200" height="200" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="gold3D" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -24,22 +23,6 @@ const Logo: React.FC<{ className?: string }> = ({ className }) => (
   </div>
 );
 
-// --- COMPOSANT CODE DISPLAY (Inliné pour fiabilité) ---
-const CodeDisplay: React.FC<{ code: string | null }> = ({ code }) => {
-  const digits = code ? code.split('') : ['-', '-', '-', '-'];
-  return (
-    <div className="flex space-x-3 mb-10">
-      {digits.map((digit, index) => (
-        <div key={index} className="relative w-16 h-24 flex items-center justify-center bg-[#121212] border border-[#8A6E2F] rounded-md shadow-[inset_0_2px_10px_rgba(0,0,0,1)]">
-          <span className="text-5xl font-black brushed-gold-text">{digit}</span>
-          <div className="absolute top-1/2 left-0 w-full h-[1px] bg-white/5"></div>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-// --- COMPOSANT PRINCIPAL ---
 const App: React.FC = () => {
   const [code, setCode] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -51,35 +34,50 @@ const App: React.FC = () => {
     let counter = 0;
     const interval = setInterval(() => {
       setCode(Math.floor(Math.random() * 10000).toString().padStart(4, '0'));
-      if (++counter > 20) {
+      if (++counter > 15) {
         clearInterval(interval);
         setIsGenerating(false);
         if (window.navigator?.vibrate) window.navigator.vibrate([100, 50, 100]);
       }
-    }, 60);
+    }, 70);
   }, [isGenerating]);
+
+  const digits = code ? code.split('') : ['-', '-', '-', '-'];
 
   return (
     <div className="min-h-screen h-screen w-full flex flex-col items-center justify-between p-6 bg-[#0f0f0f] overflow-hidden select-none">
-      <header className="w-full text-center pt-10">
-        <h1 className="text-5xl font-black brushed-gold-text tracking-widest uppercase italic transform skew-x-[-5deg]">KEY BOX</h1>
-        <p className="text-[#C5A022] text-[10px] uppercase tracking-[0.4em] font-bold opacity-60 mt-2">Security System</p>
+      <header className="w-full text-center pt-8">
+        <h1 className="text-4xl font-black brushed-gold-text tracking-widest uppercase italic transform skew-x-[-5deg]">KEY BOX</h1>
+        <p className="text-[#C5A022] text-[9px] uppercase tracking-[0.4em] font-bold opacity-60 mt-1">Security Terminal</p>
       </header>
 
       <main className="flex-1 flex flex-col items-center justify-center w-full">
-        <Logo className="mb-8" />
-        <CodeDisplay code={code} />
+        <Logo />
+        
+        <div className="flex space-x-2 mt-4 mb-10">
+          {digits.map((digit, index) => (
+            <div key={index} className="relative w-14 h-20 flex items-center justify-center bg-[#121212] border border-[#8A6E2F]/50 rounded-md shadow-[inset_0_2px_8px_rgba(0,0,0,1)]">
+              <span className="text-4xl font-black brushed-gold-text">{digit}</span>
+              <div className="absolute top-1/2 left-0 w-full h-[1px] bg-white/5"></div>
+            </div>
+          ))}
+        </div>
+
         <button
           onClick={generateCode}
           disabled={isGenerating}
-          className={`px-10 py-5 rounded-sm font-black text-xl uppercase tracking-widest transition-all ${isGenerating ? 'bg-[#111] opacity-50' : 'bg-gradient-to-b from-[#F9D423] to-[#8A6E2F] text-black shadow-lg active:scale-95'}`}
+          className={`px-10 py-5 rounded-sm font-black text-lg uppercase tracking-widest transition-all active:scale-95 ${
+            isGenerating 
+            ? 'bg-[#111] text-[#333] border border-[#222]' 
+            : 'bg-gradient-to-b from-[#F9D423] to-[#8A6E2F] text-black shadow-[0_10px_20px_rgba(0,0,0,0.5)]'
+          }`}
         >
-          {isGenerating ? 'CRYPTAGE...' : 'Générer Code'}
+          {isGenerating ? 'CHIFFREMENT...' : 'Générer Code'}
         </button>
       </main>
 
-      <footer className="w-full text-center pb-8">
-        <p className="text-[#C5A022] text-[9px] uppercase tracking-[0.5em] font-bold opacity-40">Premium Key Box v1.1</p>
+      <footer className="w-full text-center pb-6">
+        <p className="text-[#C5A022] text-[8px] uppercase tracking-[0.5em] font-bold opacity-30 italic">High Encryption Standard v1.2</p>
       </footer>
     </div>
   );
