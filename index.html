@@ -13,51 +13,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            background-color: #0f0f0f;
-            color: #C5A022;
-            font-family: 'Montserrat', sans-serif;
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-        }
-        #root {
-            height: 100%;
-            width: 100%;
-        }
-        .initial-loader {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background: #000;
-            text-align: center;
-            padding: 20px;
-        }
-        .loader-gold {
-            width: 40px;
-            height: 40px;
-            border: 2px solid rgba(197, 160, 34, 0.1);
-            border-top: 2px solid #f9d423;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
+        body, html { margin: 0; padding: 0; background-color: #0f0f0f; color: #C5A022; font-family: 'Montserrat', sans-serif; height: 100%; width: 100%; overflow: hidden; }
+        #root { height: 100%; width: 100%; }
+        .initial-loader { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: #000; text-align: center; padding: 20px; }
+        .loader-gold { width: 40px; height: 40px; border: 2px solid rgba(197, 160, 34, 0.1); border-top: 2px solid #f9d423; border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        #error-display {
-            display: none;
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(255, 0, 0, 0.2);
-            border: 1px solid #ff4444;
-            color: #ff8888;
-            font-size: 11px;
-            border-radius: 8px;
-            max-width: 90%;
-            word-break: break-all;
-        }
+        #error-display { display: none; margin-top: 20px; padding: 15px; background: rgba(255, 0, 0, 0.2); border: 1px solid #ff4444; color: #ff8888; font-size: 11px; border-radius: 8px; max-width: 90%; word-break: break-all; }
+        .brushed-gold-text { background: linear-gradient(to bottom, #FFE787 0%, #F9D423 45%, #B8860B 55%, #F9D423 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
     </style>
     <script type="importmap">
 {
@@ -70,23 +32,6 @@
   }
 }
 </script>
-    <script>
-        // Diagnostic immédiat
-        window.onerror = function(msg, url, line) {
-            document.getElementById('status-text').innerText = "ERREUR SYSTÈME";
-            const err = document.getElementById('error-display');
-            err.style.display = 'block';
-            err.innerHTML = msg + " (Ligne: " + line + ")";
-        };
-        // Timeout de sécurité : si après 6s rien ne se passe
-        setTimeout(() => {
-            if (document.getElementById('status-text').innerText === "Initialisation Sécurisée") {
-                document.getElementById('status-text').innerText = "DÉLAI DÉPASSÉ";
-                document.getElementById('error-display').style.display = 'block';
-                document.getElementById('error-display').innerText = "Le script principal ne répond pas. Veuillez rafraîchir la page ou vider votre cache.";
-            }
-        }, 6000);
-    </script>
 </head>
 <body>
     <div id="root">
@@ -94,9 +39,10 @@
             <div class="loader-gold"></div>
             <p id="status-text" style="margin-top: 20px; font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: #f9d423; font-weight: bold;">Initialisation Sécurisée</p>
             <div id="error-display"></div>
-            <p id="sub-text" style="margin-top: 30px; font-size: 8px; color: #444; letter-spacing: 1px;">Vérification des protocoles de chiffrement...</p>
+            <p style="margin-top: 30px; font-size: 8px; color: #444; letter-spacing: 1px;">Vérification des protocoles de chiffrement...</p>
         </div>
     </div>
-    <script type="module" src="./index.tsx"></script>
+    <!-- Ajout du ?v=final pour forcer Chrome à ignorer la version en cache -->
+    <script type="module" src="./index.tsx?v=final"></script>
 </body>
 </html>
