@@ -1,0 +1,18 @@
+
+{
+  "short_name": "KEY BOX",
+  "name": "KEY BOX - Générateur de Code",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2589/2589174.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#0f0f0f",
+  "background_color": "#0f0f0f",
+  "orientation": "portrait"
+}
